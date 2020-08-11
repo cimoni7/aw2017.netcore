@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AW2017.Models.Sale>
+@using Kendo.Mvc.UI
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="text-center">
+    <h1>AdventureWorks2017</h1>
+</div>
+
+
+
+<div class="grid" >
+    @(Html.Kendo().Grid(Model)
+    .Name("Sales")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.SalesOrderID);
+        columns.Bound(p => p.OrderDate).Format("{0:MM/dd/yyyy}");
+        columns.Bound(p => p.BillToAddressID);
+        columns.Bound(p => p.CustomerID);
+        columns.Bound(p => p.TerritoryID);
+        columns.Bound(p => p.ShipMethodID);
+        columns.Bound(p => p.TotalDue);
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable(scr => scr.Height(430))
+    .Filterable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .ServerOperation(false)
+     )
+)
+
+</div>

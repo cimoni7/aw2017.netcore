@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AW2017.Models.Sale>
+@using Kendo.Mvc.UI
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="text-center">
+    <h1>AdventureWorks2017</h1>
+</div>
+
+<div class="chart">
+    @(Html.Kendo().Chart(Model)
+            .Name("chart")
+            .Title("Sum Of Product Sales per Order Date")
+            .Series(series => {
+                series
+                    .Line(model => model.TotalDue, categoryExpression: model => model.OrderDate)
+                    .Aggregate(ChartSeriesAggregate.Sum);
+            })
+            .CategoryAxis(axis => axis
+                .Date()
+                .BaseUnit(ChartAxisBaseUnit.Fit)
+            )
+            .Zoomable(zoomable => zoomable
+                .Mousewheel(mousewheel => mousewheel.Lock(ChartAxisLock.Y))
+                .Selection(selection => selection.Lock(ChartAxisLock.Y))
+            )
+            .Pannable(pannable => pannable
+                .Lock(ChartAxisLock.Y)
+            )
+            .Tooltip(t =>
+                t.Visible(true)
+                .Format("{0:C2}")
+            )
+        )
+</div>
+
